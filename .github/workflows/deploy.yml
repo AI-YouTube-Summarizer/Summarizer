@@ -1,9 +1,28 @@
-#!/bin/bash
-# setup.sh - Script to install dependencies
+name: Deploy Streamlit App
 
-# Install system dependencies (xclip)
-sudo apt-get update
-sudo apt-get install -y xclip
+on:
+  push:
+    branches:
+      - main
 
-# Install Python dependencies
-pip install -r requirements.txt
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install system dependencies and Python packages
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
+
+      - name: Run Streamlit app
+        run: |
+          streamlit run your_streamlit_app.py
