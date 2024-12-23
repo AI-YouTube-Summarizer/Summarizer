@@ -1,1 +1,3 @@
-xselect
+xclip
+gtk
+PyQt4
