@@ -173,7 +173,7 @@ if st.session_state.accepted_terms:
                     st.markdown(summary)
                     
                     # Add buttons for cache clearing, clipboard copy, and download
-                    c1, c2, c3 = st.columns(3)
+                    c1, c2 = st.columns(2)
 
                     with c1:
                             @st.fragment
@@ -184,19 +184,8 @@ if st.session_state.accepted_terms:
                                     st.session_state.is_cached = False  # Reset cache status
                                     st.toast("Cache cleared successfully!" )
                             clearCache()
-                        
+                    
                     with c2:
-                        @st.fragment
-                        def main():
-                            # Create a button for copying to clipboard
-                            if st.button("Copy to clipboard", icon="📋", help="Click to copy the summary", use_container_width=True):
-                                # Use pyperclip to copy the summary name to the clipboard
-                                pyperclip.copy(summary)
-                                st.toast("Summary name copied to clipboard!")
-                        if __name__ == "__main__":
-                            main()
-                            
-                    with c3:
                         @st.fragment
                         def main():
                             # Create the download button
