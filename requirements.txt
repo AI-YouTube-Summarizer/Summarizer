@@ -3,7 +3,5 @@ streamlit
 groq
 python-dotenv
 pathlib
-pyperclip
 beautifulsoup4
 requests
-xclip
