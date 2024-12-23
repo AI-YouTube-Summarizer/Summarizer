@@ -1,0 +1,23 @@
+name: Deploy Streamlit App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run setup script
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
+
+      - name: Run Streamlit app
+        run: |
+          streamlit run your_streamlit_app.py
