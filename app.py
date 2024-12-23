@@ -9,7 +9,6 @@ from components.intro import display_intro
 from components.chatbot import display_chat, initialize_client
 from components.url_validation import is_valid_youtube_url
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
-from st_copy_to_clipboard import st_copy_to_clipboard
 from utils.summarization import get_summary
 from utils.youtube_transcript import extract_transcript_details
 from components.sidebar import render_sidebar
