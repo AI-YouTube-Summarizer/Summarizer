@@ -1,3 +1,2 @@
 xclip
-gtk
-PyQt4
+
