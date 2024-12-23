@@ -6,3 +6,4 @@ pathlib
 pyperclip
 beautifulsoup4
 requests
+xclip
