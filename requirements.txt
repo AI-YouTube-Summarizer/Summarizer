@@ -3,5 +3,10 @@ streamlit
 groq
 python-dotenv
 pathlib
+pyperclip
 beautifulsoup4
 requests
+xsel
+xclip
+gtk
+PyQt4
