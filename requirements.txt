@@ -6,5 +6,4 @@ pathlib
 pyperclip
 beautifulsoup4
 requests
-gtk
-PyQt4
+
