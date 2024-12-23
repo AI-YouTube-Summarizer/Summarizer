@@ -1,0 +1,23 @@
+[client]
+showSidebarNavigation = true
+
+
+[theme]
+
+# The preset Streamlit theme that your custom theme inherits from.
+base = "dark"
+
+# Primary accent color for interactive elements, a rich violet for a bold, modern look.
+primaryColor = "#7E57C2"  # Vivid Violet
+
+# Background color for the main content area, a very dark gray for a sleek appearance without being fully black.
+backgroundColor = "#1E1E24"  # Charcoal Black
+
+# Background color used for the sidebar and most interactive widgets, a slightly lighter shade to maintain readability and contrast.
+secondaryBackgroundColor = "#2A2A35"  # Soft Charcoal Gray
+
+# Color used for almost all text, a soft, light gray to avoid stark contrast and reduce eye strain.
+textColor = "#E0E0E0"  # Light Gray
+
+# Font family for all text in the app, opting for "sans serif" for a clean, modern look.
+font = "sans serif"
