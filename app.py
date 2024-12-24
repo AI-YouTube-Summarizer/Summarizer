@@ -5,7 +5,6 @@ import requests
 from bs4 import BeautifulSoup # type: ignore
 from dotenv import load_dotenv
 from components.intro import display_intro
-from components.clippingMechanism import copy_summary
 from components.chatbot import display_chat, initialize_client
 from components.url_validation import is_valid_youtube_url
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
@@ -174,7 +173,7 @@ if st.session_state.accepted_terms:
                     
 
                     # Add buttons for cache clearing, clipboard copy, and download
-                    c1, c2, c3 = st.columns(3)
+                    c1, c2 = st.columns(2)
 
                     with c1:
                             @st.fragment
@@ -185,20 +184,8 @@ if st.session_state.accepted_terms:
                                     st.session_state.is_cached = False  # Reset cache status
                                     st.toast("Cache cleared successfully!" )
                             clearCache()
-                        
-                    with c2:
-                            @st.fragment
-                            def main():
-                                                                    
-                                # Create a button for copying to clipboard
-                                if st.button("Copy to clipboard", icon="📋", help="Click to copy the summary", use_container_width=True):
-                                    copy_summary(summary)
-
-
-                            if __name__ == "__main__":
-                                main()
                             
-                    with c3:
+                    with c2:
                             @st.fragment
                             def main():
                                 # Create the download button

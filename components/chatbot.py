@@ -94,19 +94,23 @@ def display_chat(client):
                         print(f"TypeError in generate_chatbot_response: {e}")
                 # Define the function for the copy button
                 @st.fragment
-                def copy_button():
-                    # Create a button for copying to clipboard
-                    if st.button("Copy", icon="📋", help="Copy the response to clipboard"):
-                        # Use pyperclip to copy the assistant response to the clipboard
-                        pyperclip.copy(assistant_response)
-                        st.toast("Assistant response copied to clipboard!") 
+                def download_button():
+                    # Create the download button
+                    if st.download_button(
+                        label="Download Response",
+                        icon=":material/download:",
+                        data=assistant_response,  # Directly pass the string without encoding
+                        file_name=summary_file_name, # type: ignore
+                        mime="text/plain", 
+                        use_container_width=True):
+                            st.toast("Assistant response copied to clipboard!") 
 
                 # Append assistant response to session state if it has a value
                 if assistant_response:  # Only append if assistant_response has a value
                     st.session_state.messages.append({"role": "assistant", "content": assistant_response})
                     
                     # Call the function to render the button
-                    copy_button()
+                    download_button()
                 else:
                     st.error("Assistant response was not generated.")  # Optional error message
                 
