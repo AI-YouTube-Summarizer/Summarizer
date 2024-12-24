@@ -39,6 +39,64 @@ This project is a Streamlit-based web application designed to summarize YouTube 
    ```bash
    streamlit run app.py
    ```
+---
+
+### Clipboard Functionality Setup for Different Operating Systems
+
+This project uses clipboard functionality for copying summaries directly to the clipboard. Depending on your operating system, follow the instructions below to ensure proper setup.
+
+#### **For Linux**
+The app uses `xclip` to enable clipboard functionality on Linux systems.
+
+1. **Install xclip**:  
+   Run the following command in your terminal:
+   ```bash
+   sudo apt-get install xclip
+   ```
+
+2. **Verify Installation**:  
+   Test if `xclip` is installed by running:
+   ```bash
+   echo "Clipboard test" | xclip -selection clipboard
+   ```
+   Paste the clipboard content (e.g., in a text editor) to confirm.
+
+3. **Run the App**:  
+   Ensure that `xclip` is accessible in your environment, and the app will use it for clipboard operations automatically.
+
+#### **For Windows**
+The app uses `pyperclip` for clipboard functionality on Windows systems.
+
+1. **Install pyperclip**:  
+   Run the following command to install `pyperclip`:
+   ```bash
+   pip install pyperclip
+   ```
+
+2. **Verify Clipboard Support**:  
+   Pyperclip works seamlessly on Windows without additional dependencies. Run this Python snippet to test:
+   ```python
+   import pyperclip
+   pyperclip.copy("Clipboard test")
+   print(pyperclip.paste())
+   ```
+
+3. **Run the App**:  
+   The app will automatically use `pyperclip` on Windows for clipboard operations.
+
+---
+
+#### **Code Behavior**
+The app detects the operating system and uses the appropriate library for clipboard operations. You don’t need to configure anything manually beyond ensuring `xclip` (Linux) or `pyperclip` (Windows) is installed.
+
+---
+
+### Example Usage
+1. Click the "Copy to Clipboard" button in the app.
+2. A notification will appear, confirming the text is copied to your clipboard.
+3. Paste the copied content into any text editor (e.g., `Ctrl + V` or `Cmd + V`).
+
+---
 
 ## Usage
 
