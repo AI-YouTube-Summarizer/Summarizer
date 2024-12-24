@@ -1,4 +1,6 @@
 import time
+import os
+import subprocess
 import streamlit as st
 from groq import Groq
 import requests
@@ -65,6 +67,15 @@ if not st.session_state.accepted_terms:
 
 # Load environment variables
 load_dotenv()
+
+# Function to start Xvfb and set DISPLAY environment variable
+def start_xvfb():
+    # Start Xvfb in the background
+    subprocess.run(['Xvfb', ':99', '&'])
+    os.environ['DISPLAY'] = ':99'
+
+# Call the start_xvfb function to initialize Xvfb
+start_xvfb()
 
 # Supported languages for Llama 3
 LANGUAGES = {
