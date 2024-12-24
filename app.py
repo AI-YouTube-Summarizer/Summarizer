@@ -85,6 +85,19 @@ LANGUAGES = {
 
 # Main app content, shown only if terms are accepted
 if st.session_state.accepted_terms:
+
+    # Function to start Xvfb and set DISPLAY environment variable
+    def start_xvfb():
+        try:
+            # Start Xvfb
+            result = subprocess.run(['Xvfb', ':99'], check=True, stderr=subprocess.PIPE)
+            os.environ['DISPLAY'] = ':99'
+        except subprocess.CalledProcessError as e:
+            # Check if stderr is not None before decoding it
+            error_message = e.stderr.decode('utf-8') if e.stderr else "No error message available"
+            st.error(f"Failed to start Xvfb: {error_message}")
+            raise RuntimeError("Xvfb failed to start.")
+
     # Define a function to show a temporary success message
     success_placeholder = st.empty()  # Create a placeholder
     success_placeholder.success("Thank you for accepting the terms! You may now use the summarization tool.", icon="✅")
@@ -173,17 +186,7 @@ if st.session_state.accepted_terms:
                     st.markdown("## Detailed Notes:")
                     st.markdown(summary)
                     
-                    # Function to start Xvfb and set DISPLAY environment variable
-                    def start_xvfb():
-                        try:
-                            # Start Xvfb
-                            result = subprocess.run(['Xvfb', ':99'], check=True, stderr=subprocess.PIPE)
-                            os.environ['DISPLAY'] = ':99'
-                        except subprocess.CalledProcessError as e:
-                            # Check if stderr is not None before decoding it
-                            error_message = e.stderr.decode('utf-8') if e.stderr else "No error message available"
-                            st.error(f"Failed to start Xvfb: {error_message}")
-                            raise RuntimeError("Xvfb failed to start.")
+                    
 
                     # Call the start_xvfb function to initialize Xvfb
                     start_xvfb()
