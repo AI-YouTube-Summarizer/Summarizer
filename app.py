@@ -69,37 +69,33 @@ if not st.session_state.accepted_terms:
 load_dotenv()
 
 
-# Custom flag to simulate embedded app check (this is just an example condition)
-# You can set this flag based on your actual requirement, like an environment variable
-is_app_embedded = os.getenv("IS_APP_EMBEDDED", "false").lower() == "true"
-
-# Assuming `pv.start_xvfb()` is a function to start Xvfb
+# Function to start Xvfb
 def start_xvfb():
     try:
         # Start Xvfb process
         subprocess.run(['Xvfb', ':99'], check=True)
+        # Set the DISPLAY environment variable
         os.environ['DISPLAY'] = ':99'
         st.success("Xvfb started successfully!")
-
     except subprocess.CalledProcessError as e:
         st.error(f"Failed to start Xvfb: {e}")
         raise RuntimeError("Xvfb failed to start")
 
 # Check if Xvfb is already running
-is_xvfb_running = subprocess.run(["pgrep", "Xvfb"], capture_output=True)
+def check_xvfb_status():
+    # Run the pgrep command to check if Xvfb is running
+    is_xvfb_running = subprocess.run(["pgrep", "Xvfb"], capture_output=True)
 
-if is_xvfb_running.returncode == 1:
-    # Xvfb is not running, so start it
-    if not is_app_embedded:
-        st.toast("Xvfb was not running...", icon="⚠️")
-    start_xvfb()
-else:
-    # Xvfb is already running, display the PID
-    if not is_app_embedded:
-        st.toast(f"Xvfb is running! \n\n`PID: {is_xvfb_running.stdout.decode('utf-8')}`", icon="📺")
+    if is_xvfb_running.returncode == 1:
+        # Xvfb is not running, so start it
+        st.toast("Xvfb was not running, starting it...", icon="⚠️")
+        start_xvfb()
+    else:
+        # Xvfb is running, display the PID
+        st.toast(f"Xvfb is already running! \n\n`PID: {is_xvfb_running.stdout.decode('utf-8')}`", icon="📺")
 
-
-
+# Check Xvfb status and start if needed
+check_xvfb_status()
 
 
 # Supported languages for Llama 3
