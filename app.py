@@ -68,28 +68,40 @@ if not st.session_state.accepted_terms:
 # Load environment variables
 load_dotenv()
 
-def clean_up_xvfb_lock():
-    lock_file = '/tmp/.X99-lock'
-    if os.path.exists(lock_file):
-        os.remove(lock_file)
-        st.info("Removed stale lock file /tmp/.X99-lock")
+import subprocess
+import streamlit as st
 
+# Custom flag to simulate embedded app check (this is just an example condition)
+# You can set this flag based on your actual requirement, like an environment variable
+is_app_embedded = os.getenv("IS_APP_EMBEDDED", "false").lower() == "true"
+
+# Assuming `pv.start_xvfb()` is a function to start Xvfb
 def start_xvfb():
     try:
-        clean_up_xvfb_lock()  # Clean up any stale lock file before starting Xvfb
-        result = subprocess.run(
-            ['Xvfb', ':99'], check=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE
-        )
+        # Start Xvfb process
+        subprocess.run(['Xvfb', ':99'], check=True)
         os.environ['DISPLAY'] = ':99'
         st.success("Xvfb started successfully!")
-    except subprocess.CalledProcessError as e:
-        stderr_message = e.stderr.decode('utf-8') if e.stderr else "No error message available"
-        stdout_message = e.stdout.decode('utf-8') if e.stdout else "No output available"
-        st.error(f"Failed to start Xvfb:\nSTDERR: {stderr_message}\nSTDOUT: {stdout_message}")
-        raise RuntimeError(f"Xvfb failed to start. STDERR: {stderr_message}, STDOUT: {stdout_message}")
 
-# Call the start_xvfb function
-start_xvfb()
+    except subprocess.CalledProcessError as e:
+        st.error(f"Failed to start Xvfb: {e}")
+        raise RuntimeError("Xvfb failed to start")
+
+# Check if Xvfb is already running
+is_xvfb_running = subprocess.run(["pgrep", "Xvfb"], capture_output=True)
+
+if is_xvfb_running.returncode == 1:
+    # Xvfb is not running, so start it
+    if not is_app_embedded:
+        st.toast("Xvfb was not running...", icon="⚠️")
+    start_xvfb()
+else:
+    # Xvfb is already running, display the PID
+    if not is_app_embedded:
+        st.toast(f"Xvfb is running! \n\n`PID: {is_xvfb_running.stdout.decode('utf-8')}`", icon="📺")
+
+
+
 
 
 # Supported languages for Llama 3
