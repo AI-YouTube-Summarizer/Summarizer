@@ -79,7 +79,8 @@ def start_xvfb():
         error_message = e.stderr.decode('utf-8') if e.stderr else "No error message available"
         st.error(f"Failed to start Xvfb: {error_message}")
         raise RuntimeError("Xvfb failed to start.")
-
+# Call the start_xvfb function to initialize Xvfb
+start_xvfb()
 
 # Supported languages for Llama 3
 LANGUAGES = {
@@ -186,10 +187,6 @@ if st.session_state.accepted_terms:
                     st.markdown("## Detailed Notes:")
                     st.markdown(summary)
                     
-                    
-
-                    # Call the start_xvfb function to initialize Xvfb
-                    start_xvfb()
 
                     # Add buttons for cache clearing, clipboard copy, and download
                     c1, c2, c3 = st.columns(3)
