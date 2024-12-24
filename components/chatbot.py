@@ -70,24 +70,7 @@ def display_chat(client):
         st.session_state.messages = []
 
     # Chat container for displaying messages
-    with st.container():
-        # Add a styled border to the container
-        st.markdown(
-            """
-            <style>
-            .message-container {
-                border: 1px solid #ddd;
-                padding: 10px;
-                border-radius: 8px;
-                background-color: #f9f9f9;
-                max-height: 400px;
-                overflow-y: auto;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-
+    with st.container(border=True):
         st.markdown('<div class="message-container">', unsafe_allow_html=True)
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
