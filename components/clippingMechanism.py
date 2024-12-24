@@ -1,6 +1,6 @@
 import os
 import tempfile
-import pyperclip
+import subprocess
 import streamlit as st
 
 def copy_summary(summary_text):
@@ -10,10 +10,8 @@ def copy_summary(summary_text):
             temp_file.write(summary_text.encode('utf-8'))
             temp_file_path = temp_file.name
 
-        # Copy the summary content from the temporary file to clipboard
-        with open(temp_file_path, 'r') as file:
-            text_to_copy = file.read()
-            pyperclip.copy(text_to_copy)
+        # Use xclip to copy the content to the clipboard (Linux only)
+        subprocess.run(["xclip", "-selection", "clipboard", temp_file_path])
 
         # Delete the temporary file after copying to clipboard
         os.remove(temp_file_path)
@@ -26,3 +24,4 @@ def copy_summary(summary_text):
         st.toast(f"Error: {str(e)}", icon="❌")
 
     return copy_summary
+
