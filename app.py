@@ -121,6 +121,7 @@ if st.session_state.accepted_terms:
             # Extract and clean the video title
             title = soup.title.string.replace(" - YouTube", "").strip()
             summary_file_name = f"{title}_Summary.txt"
+            st.session_state.summary_file_name = summary_file_name
             success_placeholder.empty()  # Clear the message
             video_id = youtube_link.split("=")[1]
                         

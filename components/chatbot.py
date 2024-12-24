@@ -20,6 +20,8 @@ def generate_chatbot_response(client, user_question):
     
     # Ensure we have a summary available in session state
     summary = st.session_state.get('follow_up_summary', "")  # Retrieve from session state
+    summary_file_name = st.session_state.get("summary_file_name", "chatbotResponse.txt")
+
 
     if not summary:
         return "No summary available. Please generate a summary first."
@@ -100,7 +102,7 @@ def display_chat(client):
                         label="Download Response",
                         icon=":material/download:",
                         data=assistant_response,  # Directly pass the string without encoding
-                        file_name=summary_file_name, # type: ignore
+                        file_name="ChatBot Response",
                         mime="text/plain", 
                         use_container_width=True):
                             st.toast("Assistant response copied to clipboard!") 
