@@ -131,7 +131,7 @@ if st.session_state.accepted_terms:
             video_id = youtube_link.split("=")[1]
                         
             # display_youtube_thumbnail(video_id)
-            st.video(youtube_link, format="video/mp4", start_time=0, subtitles=None, end_time=None, loop=False, autoplay=False, muted=False)
+            st.video(youtube_link, format="video/mp4")
             
             st.write("")  # Space for layout adjustment
     
