@@ -16,6 +16,10 @@ from styles.styles import get_titleCenter_css
 # Initialize the acceptance state
 if "accepted_terms" not in st.session_state:
     st.session_state.accepted_terms = False
+# Initialize session state variables
+if "show_prompt" not in st.session_state:
+    st.session_state.show_prompt = False
+
 
 # Define the Terms and Conditions dialog
 @st.dialog("Terms and Conditions", width="large")
