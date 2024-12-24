@@ -68,8 +68,6 @@ if not st.session_state.accepted_terms:
 # Load environment variables
 load_dotenv()
 
-import subprocess
-import streamlit as st
 
 # Custom flag to simulate embedded app check (this is just an example condition)
 # You can set this flag based on your actual requirement, like an environment variable
