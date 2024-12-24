@@ -69,7 +69,6 @@ if not st.session_state.accepted_terms:
 load_dotenv()
 
 
-# Function to start Xvfb
 def start_xvfb():
     try:
         # Start Xvfb process
@@ -81,18 +80,23 @@ def start_xvfb():
         st.error(f"Failed to start Xvfb: {e}")
         raise RuntimeError("Xvfb failed to start")
 
-# Check if Xvfb is already running
+# Check if Xvfb is already running using 'ps aux'
 def check_xvfb_status():
-    # Run the pgrep command to check if Xvfb is running
-    is_xvfb_running = subprocess.run(["pgrep", "Xvfb"], capture_output=True)
+    try:
+        # Run ps aux and filter for Xvfb process
+        is_xvfb_running = subprocess.run("ps aux | grep Xvfb", shell=True, capture_output=True, text=True)
 
-    if is_xvfb_running.returncode == 1:
-        # Xvfb is not running, so start it
-        st.toast("Xvfb was not running, starting it...", icon="⚠️")
-        start_xvfb()
-    else:
-        # Xvfb is running, display the PID
-        st.toast(f"Xvfb is already running! \n\n`PID: {is_xvfb_running.stdout.decode('utf-8')}`", icon="📺")
+        if is_xvfb_running.returncode == 0 and 'Xvfb' in is_xvfb_running.stdout:
+            # Xvfb is running, display the PID
+            st.toast("Xvfb is already running!", icon="📺")
+        else:
+            # Xvfb is not running, so start it
+            st.toast("Xvfb was not running, starting it...", icon="⚠️")
+            start_xvfb()
+
+    except Exception as e:
+        st.error(f"Error checking Xvfb status: {e}")
+        raise
 
 # Check Xvfb status and start if needed
 check_xvfb_status()
