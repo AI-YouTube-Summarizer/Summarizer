@@ -1,7 +1,6 @@
 # components/chatbot.py
 import streamlit as st
 import time
-from app import summary_file_name
 from groq import Groq
 
 
@@ -20,11 +19,13 @@ def generate_chatbot_response(client, user_question):
     
     # Ensure we have a summary available in session state
     summary = st.session_state.get('follow_up_summary', "")  # Retrieve from session state
-    
-
     if not summary:
         return "No summary available. Please generate a summary first."
-
+    
+    summary_file_name = st.session_state.get("summary_file_name")
+    if not summary_file_name:
+        st.toast("No summary found")
+        
     # Format the prompt using the retrieved summary
     formatted_prompt = chatbot_prompt_template.format(summary=summary, question=user_question)
 
