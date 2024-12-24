@@ -70,7 +70,7 @@ def display_chat(client):
         st.session_state.messages = []
 
     # Chat container for messages
-    container = st.container()
+    container = st.container(border=True)
 
     # Display previous messages
     with container:
