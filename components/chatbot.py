@@ -102,7 +102,7 @@ def display_chat(client):
                         label="Download Response",
                         icon=":material/download:",
                         data=assistant_response,  # Directly pass the string without encoding
-                        file_name="ChatBot Response",
+                        file_name=summary_file_name,
                         mime="text/plain", 
                         use_container_width=True):
                             st.toast("Assistant response copied to clipboard!") 
