@@ -30,6 +30,6 @@ To ensure your API key remains safe and accessible, please store it in a secure 
             st.sidebar.success("API Key loaded from environment variable.")
             st.session_state["api_key"] = api_key  # Store in session state
         else:
-            st.error("Please provide an API key to continue.")
+          st.sidebar.error("Please provide an API key to continue.")
     
     return client  # Return the client instance for further use
