@@ -142,30 +142,23 @@ if st.session_state.accepted_terms:
                 button_placeholder.empty()  # Hides the button
                 st.session_state.show_prompt = True
 
-                # Check if the summary is already cached in the session state
                 if 'cached_summary' not in st.session_state:
-                    # Extract the transcript
                     transcript_text = extract_transcript_details(youtube_link, selected_language)
-                    
+
                     if transcript_text:
-                        # Generate the summary (not from cache)
                         summary = get_summary(client, transcript_text, LANGUAGES[selected_language], video_id)
-                        
-                        if summary is not None:  # Check if a summary was returned successfully
-                            # Store the summary in session state to cache it
+                        if summary is not None:
                             st.session_state.cached_summary = summary
-                            st.session_state.summary_cached = True  # Mark summary as cached
-                            
-                            st.success("🔄 Summary cached successfully!")
                         else:
+                            summary = None
                             st.error("❌ Unable to generate the summary.")
                     else:
+                        summary = None
                         st.error("❌ No transcript found for the provided video link.")
                 else:
-                    # If cached, retrieve from session state without regenerating
                     summary = st.session_state.cached_summary
-                    st.info("✅ Retrieved from cache")
 
+               
                 # Display the summary
                 if summary:
                     st.session_state.follow_up_summary = summary  # Store the summary in session state for chatbot access
@@ -200,6 +193,8 @@ if st.session_state.accepted_terms:
                                 )
                             if __name__ == "__main__":
                                 main()
+                else:
+                    st.warning("⚠️ No summary available.")
 
                 st.session_state.show_intro = False  # Hide intro once summary is displayed
                  
