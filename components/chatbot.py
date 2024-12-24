@@ -46,7 +46,7 @@ def generate_chatbot_response(client, user_question):
 def display_download_button(content, file_name):
     """Display a download button for the assistant's response."""
     if st.download_button(
-        label="Download Summary",
+        label="Download Response",
         data=content,
         file_name=file_name,
         mime="text/plain"
@@ -65,12 +65,14 @@ def display_typing_simulation(text, delay=0.008):
 
 def display_chat(client):
     """Display the chat interface and handle user interactions."""
-    # Initialize session state
+    # Initialize session state for messages
     if 'messages' not in st.session_state:
         st.session_state.messages = []
 
     # Chat container for displaying messages
     with st.container(border=True):
+        
+        # Container for chat messages
         st.markdown('<div class="message-container">', unsafe_allow_html=True)
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
@@ -88,19 +90,23 @@ def display_chat(client):
             st.markdown(user_input)
 
         # Generate assistant response
-        with st.chat_message("assistant"):
-            try:
-                assistant_response = generate_chatbot_response(client, user_input)
-                display_typing_simulation(assistant_response)
+        assistant_response = ""
+        try:
+            # Generate assistant response
+            assistant_response = generate_chatbot_response(client, user_input)
+            
+            # Append assistant response to session state
+            st.session_state.messages.append({"role": "assistant", "content": assistant_response})
 
-                # Append assistant response to session state
-                st.session_state.messages.append({"role": "assistant", "content": assistant_response})
+            # Display assistant response and download button inside the chat container
+            with st.container():
+                with st.chat_message("assistant"):
+                    display_typing_simulation(assistant_response)
 
                 # Retrieve summary file name from session state
                 summary_file_name = st.session_state.get('summary_file_name', "default_summary.txt")
 
-                # Display the download button for the response
+                # Display the download button
                 display_download_button(assistant_response, summary_file_name)
-
-            except Exception as e:
-                st.error(f"Error generating response: {e}")
+        except Exception as e:
+            st.error(f"Error generating response: {e}")
