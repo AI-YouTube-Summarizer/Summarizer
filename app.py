@@ -1,12 +1,11 @@
 import time
-import os
-import subprocess
 import streamlit as st
 from groq import Groq
 import requests
 from bs4 import BeautifulSoup # type: ignore
 from dotenv import load_dotenv
 from components.intro import display_intro
+from components.clippingMechanism import copy_summary
 from components.chatbot import display_chat, initialize_client
 from components.url_validation import is_valid_youtube_url
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
@@ -67,40 +66,6 @@ if not st.session_state.accepted_terms:
 
 # Load environment variables
 load_dotenv()
-
-
-def start_xvfb():
-    try:
-        # Start Xvfb process
-        subprocess.run(['Xvfb', ':99'], check=True)
-        # Set the DISPLAY environment variable
-        os.environ['DISPLAY'] = ':99'
-        st.success("Xvfb started successfully!")
-    except subprocess.CalledProcessError as e:
-        st.error(f"Failed to start Xvfb: {e}")
-        raise RuntimeError("Xvfb failed to start")
-
-# Check if Xvfb is already running using 'ps aux'
-def check_xvfb_status():
-    try:
-        # Run ps aux and filter for Xvfb process
-        is_xvfb_running = subprocess.run("ps aux | grep Xvfb", shell=True, capture_output=True, text=True)
-
-        if is_xvfb_running.returncode == 0 and 'Xvfb' in is_xvfb_running.stdout:
-            # Xvfb is running, display the PID
-            st.toast("Xvfb is already running!", icon="📺")
-        else:
-            # Xvfb is not running, so start it
-            st.toast("Xvfb was not running, starting it...", icon="⚠️")
-            start_xvfb()
-
-    except Exception as e:
-        st.error(f"Error checking Xvfb status: {e}")
-        raise
-
-# Check Xvfb status and start if needed
-check_xvfb_status()
-
 
 # Supported languages for Llama 3
 LANGUAGES = {
@@ -224,27 +189,10 @@ if st.session_state.accepted_terms:
                     with c2:
                             @st.fragment
                             def main():
-                                # Replace pyperclip with xclip function
-                                def copy_to_clipboard(text):
-                                    try:
-                                        subprocess.run(
-                                            ['xclip', '-selection', 'clipboard'],
-                                            input=text.encode('utf-8'),
-                                            check=True,
-                                            stderr=subprocess.PIPE,
-                                            stdout=subprocess.PIPE
-                                        )
-                                    except subprocess.CalledProcessError as e:
-                                        st.error(f"Error occurred: {e.stderr.decode('utf-8')}")
-                                        raise RuntimeError(f"Failed to copy to clipboard: {e.stderr.decode('utf-8')}")
-                                    
+                                                                    
                                 # Create a button for copying to clipboard
                                 if st.button("Copy to clipboard", icon="📋", help="Click to copy the summary", use_container_width=True):
-                                    try:
-                                        copy_to_clipboard(summary)
-                                        st.toast("Summary copied to clipboard!")
-                                    except Exception as e:
-                                        st.error(f"Failed to copy: {str(e)}")
+                                    copy_summary(summary)
 
 
                             if __name__ == "__main__":
