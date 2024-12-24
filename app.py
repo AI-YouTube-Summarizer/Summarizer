@@ -68,19 +68,29 @@ if not st.session_state.accepted_terms:
 # Load environment variables
 load_dotenv()
 
-# Function to start Xvfb and set DISPLAY environment variable
+def clean_up_xvfb_lock():
+    lock_file = '/tmp/.X99-lock'
+    if os.path.exists(lock_file):
+        os.remove(lock_file)
+        st.info("Removed stale lock file /tmp/.X99-lock")
+
 def start_xvfb():
     try:
-        # Start Xvfb
-        result = subprocess.run(['Xvfb', ':99'], check=True, stderr=subprocess.PIPE)
+        clean_up_xvfb_lock()  # Clean up any stale lock file before starting Xvfb
+        result = subprocess.run(
+            ['Xvfb', ':99'], check=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE
+        )
         os.environ['DISPLAY'] = ':99'
+        st.success("Xvfb started successfully!")
     except subprocess.CalledProcessError as e:
-        # Check if stderr is not None before decoding it
-        error_message = e.stderr.decode('utf-8') if e.stderr else "No error message available"
-        st.error(f"Failed to start Xvfb: {error_message}")
-        raise RuntimeError("Xvfb failed to start.")
-# Call the start_xvfb function to initialize Xvfb
+        stderr_message = e.stderr.decode('utf-8') if e.stderr else "No error message available"
+        stdout_message = e.stdout.decode('utf-8') if e.stdout else "No output available"
+        st.error(f"Failed to start Xvfb:\nSTDERR: {stderr_message}\nSTDOUT: {stdout_message}")
+        raise RuntimeError(f"Xvfb failed to start. STDERR: {stderr_message}, STDOUT: {stdout_message}")
+
+# Call the start_xvfb function
 start_xvfb()
+
 
 # Supported languages for Llama 3
 LANGUAGES = {
