@@ -70,9 +70,12 @@ load_dotenv()
 
 # Function to start Xvfb and set DISPLAY environment variable
 def start_xvfb():
-    # Start Xvfb in the background
-    subprocess.run(['Xvfb', ':99', '&'])
-    os.environ['DISPLAY'] = ':99'
+    try:
+        subprocess.run(['Xvfb', ':99'], check=True)
+        os.environ['DISPLAY'] = ':99'
+    except subprocess.CalledProcessError as e:
+        st.error(f"Failed to start Xvfb: {e.stderr.decode('utf-8')}")
+        raise RuntimeError("Xvfb failed to start.")
 
 # Call the start_xvfb function to initialize Xvfb
 start_xvfb()
@@ -200,15 +203,17 @@ if st.session_state.accepted_terms:
                             def main():
                                 # Replace pyperclip with xclip function
                                 def copy_to_clipboard(text):
-                                    import subprocess
                                     try:
-                                        process = subprocess.run(
+                                        subprocess.run(
                                             ['xclip', '-selection', 'clipboard'],
                                             input=text.encode('utf-8'),
-                                            check=True
+                                            check=True,
+                                            stderr=subprocess.PIPE,
+                                            stdout=subprocess.PIPE
                                         )
-                                    except Exception as e:
-                                        raise RuntimeError(f"Failed to copy to clipboard: {e}")
+                                    except subprocess.CalledProcessError as e:
+                                        st.error(f"Error occurred: {e.stderr.decode('utf-8')}")
+                                        raise RuntimeError(f"Failed to copy to clipboard: {e.stderr.decode('utf-8')}")
                                     
                                 # Create a button for copying to clipboard
                                 if st.button("Copy to clipboard", icon="📋", help="Click to copy the summary", use_container_width=True):
@@ -216,7 +221,8 @@ if st.session_state.accepted_terms:
                                         copy_to_clipboard(summary)
                                         st.toast("Summary copied to clipboard!")
                                     except Exception as e:
-                                        st.error(f"Failed to copy to clipboard: {e}") 
+                                        st.error(f"Failed to copy: {str(e)}")
+
 
                             if __name__ == "__main__":
                                 main()
