@@ -21,3 +21,6 @@ textColor = "#E0E0E0"  # Light Gray
 
 # Font family for all text in the app, opting for "sans serif" for a clean, modern look.
 font = "sans serif"
+
+[browser]
+gatherUsageStats = false
