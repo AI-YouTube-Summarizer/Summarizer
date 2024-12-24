@@ -68,18 +68,6 @@ if not st.session_state.accepted_terms:
 # Load environment variables
 load_dotenv()
 
-# Function to start Xvfb and set DISPLAY environment variable
-def start_xvfb():
-    try:
-        subprocess.run(['Xvfb', ':99'], check=True)
-        os.environ['DISPLAY'] = ':99'
-    except subprocess.CalledProcessError as e:
-        st.error(f"Failed to start Xvfb: {e.stderr.decode('utf-8')}")
-        raise RuntimeError("Xvfb failed to start.")
-
-# Call the start_xvfb function to initialize Xvfb
-start_xvfb()
-
 # Supported languages for Llama 3
 LANGUAGES = {
     "en": "English",
@@ -185,6 +173,21 @@ if st.session_state.accepted_terms:
                     st.markdown("## Detailed Notes:")
                     st.markdown(summary)
                     
+                    # Function to start Xvfb and set DISPLAY environment variable
+                    def start_xvfb():
+                        try:
+                            # Start Xvfb
+                            result = subprocess.run(['Xvfb', ':99'], check=True, stderr=subprocess.PIPE)
+                            os.environ['DISPLAY'] = ':99'
+                        except subprocess.CalledProcessError as e:
+                            # Check if stderr is not None before decoding it
+                            error_message = e.stderr.decode('utf-8') if e.stderr else "No error message available"
+                            st.error(f"Failed to start Xvfb: {error_message}")
+                            raise RuntimeError("Xvfb failed to start.")
+
+                    # Call the start_xvfb function to initialize Xvfb
+                    start_xvfb()
+
                     # Add buttons for cache clearing, clipboard copy, and download
                     c1, c2, c3 = st.columns(3)
 
