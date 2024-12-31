@@ -241,9 +241,10 @@ if st.session_state.accepted_terms:
                                 file_name=summary_file_name,
                                 mime="text/plain", 
                                 use_container_width=True
-                            )
-                        downloadSubs()
+                            ):
                             st.toast("Summary download successfully!")
+                        downloadSubs()
+                            
                 else:
                     st.warning("⚠️ No summary available.")
 
