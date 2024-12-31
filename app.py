@@ -242,7 +242,7 @@ if st.session_state.accepted_terms:
                                 mime="text/plain", 
                                 use_container_width=True
                             ):
-                            st.toast("Summary download successfully!")
+                                st.toast("Summary download successfully!")
                         downloadSubs()
                             
                 else:
