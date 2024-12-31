@@ -1,4 +1,4 @@
-youtube_transcript_api
+yt-dlp
 streamlit
 groq
 python-dotenv
