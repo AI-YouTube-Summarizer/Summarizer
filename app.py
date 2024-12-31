@@ -13,6 +13,14 @@ from utils.summarization import get_summary
 from components.sidebar import render_sidebar
 from styles.styles import get_titleCenter_css
 
+st.set_page_config(
+    page_title="AI YouTube Summarizer",
+    page_icon="AI_YouTube_Summarizer.png",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    )
+
+
 # Initialize session state variables in one place for better organization
 if "accepted_terms" not in st.session_state:
     st.session_state.accepted_terms = False
@@ -76,13 +84,6 @@ if not st.session_state.accepted_terms:
 
 # Load environment variables
 load_dotenv()
-
-st.set_page_config(
-    page_title="AI YouTube Summarizer",
-    page_icon="AI_YouTube_Summarizer.png",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    )
 
 # Language options for subtitle extraction and summary generation
 LANGUAGES = {
