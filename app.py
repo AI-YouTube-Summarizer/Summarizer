@@ -77,6 +77,13 @@ if not st.session_state.accepted_terms:
 # Load environment variables
 load_dotenv()
 
+st.set_page_config(
+    page_title="AI YouTube Summarizer",
+    page_icon="AI_YouTube_Summarizer.png",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    )
+
 # Language options for subtitle extraction and summary generation
 LANGUAGES = {
     "en": "English",
