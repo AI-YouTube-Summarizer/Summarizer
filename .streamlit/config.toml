@@ -1,5 +1,7 @@
 [client]
 showSidebarNavigation = true
+showErrorDetails = false
+
 
 
 [theme]
