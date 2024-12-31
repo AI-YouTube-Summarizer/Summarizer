@@ -16,7 +16,6 @@ from styles.styles import get_titleCenter_css
 st.set_page_config(
     page_title="AI YouTube Summarizer",
     page_icon="AI_YouTube_Summarizer.png",
-    layout="wide",
     initial_sidebar_state="expanded",
     )
 
