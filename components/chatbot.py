@@ -57,7 +57,7 @@ def display_download_button(content, file_name):
         mime="text/plain",
         icon=":material/download:"
     ):
-        st.toast("Summary downloaded successfully!", icon="✅")
+        st.toast("ChatBot response download successfully!", icon="✅")
 
 def display_typing_simulation(text, delay=0.008):
     """Simulate typing effect for displaying responses."""
