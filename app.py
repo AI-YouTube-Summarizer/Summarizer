@@ -234,7 +234,7 @@ if st.session_state.accepted_terms:
                         # Provide a button to download the summary
                         @st.fragment
                         def downloadSubs():
-                            st.download_button(
+                            if st.download_button(
                                 label="Download Summary",
                                 icon=":material/download:",
                                 data=summary,
