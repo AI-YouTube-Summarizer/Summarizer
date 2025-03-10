@@ -13,17 +13,6 @@ from utils.summarization import get_summary
 from components.sidebar import render_sidebar
 from styles.styles import get_titleCenter_css
 
-#setting Global theme fonts.
-custom_css = """
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-
-html, body, [class*="css"]  {
-    font-family: 'Open Sans', sans-serif;
-}
-</style>
-"""
-
 st.set_page_config(
     page_title="AI YouTube Summarizer",
     page_icon="AI_YouTube_Summarizer.png",
