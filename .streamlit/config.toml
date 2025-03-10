@@ -2,8 +2,6 @@
 showSidebarNavigation = true
 showErrorDetails = false
 
-
-
 [theme]
 
 # The preset Streamlit theme that your custom theme inherits from.
@@ -20,9 +18,6 @@ secondaryBackgroundColor = "#2A2A35"  # Soft Charcoal Gray
 
 # Color used for almost all text, a soft, light gray to avoid stark contrast and reduce eye strain.
 textColor = "#E0E0E0"  # Light Gray
-
-# Font family for all text in the app, opting for "sans serif" for a clean, modern look.
-font = "sans serif"
 
 [browser]
 gatherUsageStats = false
